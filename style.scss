@@ -1,0 +1,111 @@
+/* RESET */
+*,
+::before,
+::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body {
+    /* margin: 30px; */
+  /* padding: 30px; */
+}
+/* HEADER */
+header {
+    margin: 30px;
+  .brand {
+    display: flex;
+    justify-content: center;
+    img {
+      width: 300px;
+    }
+  }
+  .search {
+    display: flex;
+    align-items: center;
+    background: rgb(221, 221, 221);
+    border-radius: 4px;
+    input {
+      width: 100%;
+      height: 40px;
+      background: rgb(221, 221, 221);
+      border-radius: 4px;
+      outline: none;
+      border: none;
+      padding: 15px;
+    }
+    label {
+      border-radius: 4px;
+      padding: 10px;
+    }
+  }
+  .btnsToFilter {
+    margin-top: 25px;
+    .btn {
+      border: none;
+      padding: 10px 12px;
+      border-radius: 4px;
+      color: white;
+    }
+    .btnIngredient {
+      background: rgb(12, 162, 231);
+    }
+    .btnAppareil {
+      background: rgb(24, 235, 105);
+    }
+    .btnUstensiles {
+      background: rgb(209, 51, 51);
+    }
+  }
+}
+/* MAIN */
+main {
+    margin: 30px;
+  .recipes {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    .recipe {
+      height: 35vh;
+      width: 350px;
+      margin-bottom: 10px;
+      &__img {
+        background: grey;
+        height: 50%;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+      }
+      &__content {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        background: rgb(214, 214, 214);
+        height: 50%;
+        padding: 5px;
+        border-bottom-left-radius: 8px;
+        border-bottom-right-radius: 8px;
+        .title {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          font-weight: 800;
+        }
+        .info {
+          font-size: 10px;
+          display: flex;
+          .ingredients {
+            width: 50%;
+          }
+          .ingredients {
+            li {
+              display: flex;
+            }
+          }
+          .desc {
+            width: 50%;
+          }
+        }
+      }
+    }
+  }
+}
