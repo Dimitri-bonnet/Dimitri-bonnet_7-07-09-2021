@@ -1,0 +1,17 @@
+{
+    "name": "c",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+      "sass": "sass --watch  ./style.scss:./style.css"
+    },
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+      "eslint": "^7.22.0"
+    },
+    "dependencies": {
+      "sass": "^1.38.2"
+    }
+  }

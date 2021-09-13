@@ -5,10 +5,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS -->
     <link rel="stylesheet" href="style.css">
+    <!-- FONTAWESOME -->
     <script src="https://kit.fontawesome.com/a13498b757.js" crossorigin="anonymous"></script>
-    <script src="recipes/recipes.js" async></script>
-    <script src="main.js" async></script>
+   
     <title>Les petits plats</title>
 </head>
 
@@ -21,191 +22,54 @@
             <input id="search" type="search" placeholder="Rechercher un ingrediet,appreil, ustensiles ou une recette">
             <label for="search"><i class="fas fa-search"></i></label>
         </div>
+        <div class="tagsIngredient"></div>
         <div class="btnsToFilter">
             <button class="btn btnIngredient">Ingrédients <i class="fas fa-angle-down"></i></button>
             <button class="btn btnAppareil">Appareil <i class="fas fa-angle-down"></i></button>
-            <button class="btn btnUstensiles">Ustensiles <i class="fas fa-angle-down"></i></button>
+            <button class="btn btnUstensile">Ustensiles <i class="fas fa-angle-down"></i></button>
+            <div class="inputItem inputIngredients"> 
+                <input class="inputIngredients" type="text" placeholder="Ingrédients">
+                <i class="fas fa-chevron-down"></i>
+                <div class="listIngredients">
+                    <ul>
+                        <li>Item1</li>
+                        <li>Item2</li>
+                        <li>Item1</li>
+                        <li>Item2</li>
+                        <li>Item1</li>
+                        <li>Item2</li>
+                        <li>Item1</li>
+                        <li>Item2</li>
+                        <li>Item1</li>
+                        <li>Item2</li>
+                        <li>Item1</li>
+                        <li>Item2</li>
+                        <li>Item1</li>
+                        <li>Item2</li>
+                        <li>Item1</li>
+                        <li>Item2</li>
+                        <li>Item1</li>
+                        <li>Item2</li>
+                        <li>Item1</li>
+                        <li>Item2</li>
+                        <li>Item1</li>
+                        <li>Item2</li>
+                        <li>Item1</li>
+                        <li>Item2</li>
+                        <li>Item1</li>
+                        <li>Item2</li>
+                        <li>Item1</li>
+                        <li>Item2</li>
+                        
+                    </ul>
+                </div>
+            </div>
         </div>
     </header>
     <main>
-        <div class="recipes">
-            <div class="recipe">
-                <div class="recipe__img"></div>
-                <div class="recipe__content">
-                    <div class="title">
-                        <p>Limonade de coco</p>
-                        <p><i class="far fa-clock"></i> 60 min</p>
-                    </div>
-                    <div class="info">
-                        <div class="ingredients">
-                            <ul>
-                                <li>
-                                    <p>Ingredient1 :</p>
-                                    <p>Mesure</p>
-                                </li>
-                                <li>
-                                    <p>Ingredient2 :</p>
-                                    <p>Mesure</p>
-                                </li>
-                                <li>
-                                    <p>Ingredient3 :</p>
-                                    <p>Mesure</p>
-                                </li>
-                                <li>
-                                    <p>Ingredient4 :</p>
-                                    <p>Mesure</p>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="desc">
-                            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Facilis facere nesciunt impedit
-                            illum delectus blanditiis quisquam esse dolorum ipsa laborum!
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="recipe">
-                <div class="recipe__img"></div>
-                <div class="recipe__content">
-                    <div class="title">
-                        <p>Limonade de coco</p>
-                        <p><i class="far fa-clock"></i> 60 min</p>
-                    </div>
-                    <div class="info">
-                        <div class="ingredients">
-                            <ul>
-                                <li>
-                                    <p>Ingredient1 :</p>
-                                    <p>Mesure</p>
-                                </li>
-                                <li>
-                                    <p>Ingredient2 :</p>
-                                    <p>Mesure</p>
-                                </li>
-                                <li>
-                                    <p>Ingredient3 :</p>
-                                    <p>Mesure</p>
-                                </li>
-                                <li>
-                                    <p>Ingredient4 :</p>
-                                    <p>Mesure</p>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="desc">
-                            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Facilis facere nesciunt impedit
-                            illum delectus blanditiis quisquam esse dolorum ipsa laborum!
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="recipe">
-                <div class="recipe__img"></div>
-                <div class="recipe__content">
-                    <div class="title">
-                        <p>Limonade de coco</p>
-                        <p><i class="far fa-clock"></i> 60 min</p>
-                    </div>
-                    <div class="info">
-                        <div class="ingredients">
-                            <ul>
-                                <li>
-                                    <p>Ingredient1 :</p>
-                                    <p>Mesure</p>
-                                </li>
-                                <li>
-                                    <p>Ingredient2 :</p>
-                                    <p>Mesure</p>
-                                </li>
-                                <li>
-                                    <p>Ingredient3 :</p>
-                                    <p>Mesure</p>
-                                </li>
-                                <li>
-                                    <p>Ingredient4 :</p>
-                                    <p>Mesure</p>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="desc">
-                            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Facilis facere nesciunt impedit
-                            illum delectus blanditiis quisquam esse dolorum ipsa laborum!
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="recipe">
-                <div class="recipe__img"></div>
-                <div class="recipe__content">
-                    <div class="title">
-                        <p>Limonade de coco</p>
-                        <p><i class="far fa-clock"></i> 60 min</p>
-                    </div>
-                    <div class="info">
-                        <div class="ingredients">
-                            <ul>
-                                <li>
-                                    <p>Ingredient1 :</p>
-                                    <p>Mesure</p>
-                                </li>
-                                <li>
-                                    <p>Ingredient2 :</p>
-                                    <p>Mesure</p>
-                                </li>
-                                <li>
-                                    <p>Ingredient3 :</p>
-                                    <p>Mesure</p>
-                                </li>
-                                <li>
-                                    <p>Ingredient4 :</p>
-                                    <p>Mesure</p>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="desc">
-                            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Facilis facere nesciunt impedit
-                            illum delectus blanditiis quisquam esse dolorum ipsa laborum!
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="recipe">
-                <div class="recipe__img"></div>
-                <div class="recipe__content">
-                    <div class="title">
-                        <p>Limonade de coco</p>
-                        <p><i class="far fa-clock"></i> 60 min</p>
-                    </div>
-                    <div class="info">
-                        <div class="ingredients">
-                            <ul>
-                                <li>
-                                    <p>Ingredient1 :</p>
-                                    <p>Mesure</p>
-                                </li>
-                                <li>
-                                    <p>Ingredient2 :</p>
-                                    <p>Mesure</p>
-                                </li>
-                                <li>
-                                    <p>Ingredient3 :</p>
-                                    <p>Mesure</p>
-                                </li>
-                                <li>
-                                    <p>Ingredient4 :</p>
-                                    <p>Mesure</p>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="desc">
-                            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Facilis facere nesciunt impedit
-                            illum delectus blanditiis quisquam esse dolorum ipsa laborum!
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <div class="recipes"></div>
     </main>
-</body>
 
+    <script src="main.js"></script>
+</body>
 </html>
