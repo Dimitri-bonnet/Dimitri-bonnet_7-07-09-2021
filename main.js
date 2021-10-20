@@ -1,111 +1,193 @@
 class HomePage {
     constructor(service, recipe) {
-        this.service = service
-        this.recipes = []
-        this.filteredRecipes = []
+        this.service = service;
+        this.recipes = [];
+        this.filteredRecipes = [];
+        this.ingredientsRecipes = []
+        this.applianceRecipes = []
+        this.ustensilesRecipes = []
+        this.containerRecipes = document.querySelector('.recipes');
+        this.listIngredientsRecipe = document.querySelector('.listIngredients ul')
+        this.listAppareilRecipe = document.querySelector('.listAppareils ul')
+        this.listUstensilesRecipe = document.querySelector(".listUstensiles ul")
         this.mainInputSearch = document.querySelector('#search');
-        this.containerRecipes = document.querySelector('.recipes')
-        this.filterTags = []
+        this.secondaryInputs = document.querySelectorAll(".inputItem input");
+        this.filterTags = [];
+        this.onlyOnce = true
     }
-    init(){
+    init() {
         this.getRecipes()
         this.displayRecipes(this.recipes)
-        this.eventInputChange()
-        this.addBtnFilterTagByInput()
+        this.eventMainInput()
+        this.eventSecondaryInput()
+        this.getIngredients(this.recipes)
+        this.getAppareils(this.recipes)
+        this.getUstensils(this.recipes)
+        this.filterByTags(this.filterTags , this.recipes)
     }
-
     getRecipes() {
         this.recipes = this.service.getRecipes()
     }
-    displayRecipes(recipes){
-       recipes.forEach((recipe) => {
-            this.containerRecipes.append(recipe.templateRecipe())
+    getIngredients(arr) {
+        arr.forEach((i) => {
+            i.ingredients.forEach((i) => {
+                this.ingredientsRecipes.push(i.ingredient)
+            })
         })
+        this.ingredientsRecipes = [...new Set(this.ingredientsRecipes)]
+        this.templateItemList(this.ingredientsRecipes, this.listIngredientsRecipe)
     }
-    removeRecipes(recipes){
-        recipes.forEach((recipe) => {
-            recipe.remove()
+    getAppareils(arr) {
+        arr.forEach((a) => {
+            this.applianceRecipes.push(a.appliance)
         })
+        this.applianceRecipes = [...new Set(this.applianceRecipes)]
+        this.templateItemList(this.applianceRecipes, this.listAppareilRecipe)
     }
-    search(list, search){
-        search = search.toLowerCase()
-        this.filteredRecipes = list.filter((
-            (el) => el.name.toLowerCase().includes(search)    
-        ))
+    getUstensils(arr) {
+        arr.forEach((u) => {
+            u.ustensils.forEach((u) => {
+                this.ustensilesRecipes.push(u)
+            })
+        })
+        this.ustensilesRecipes = [...new Set(this.ustensilesRecipes)]
+        this.templateItemList(this.ustensilesRecipes, this.listUstensilesRecipe)
     }
-    eventInputChange(){
+    displayRecipes(recipes) {
+        const noRecipes = document.querySelector('.noRecipes')
+        if (recipes.length) {
+            noRecipes.style.display = "none"
+            recipes.forEach((recipe) => {
+                this.containerRecipes.append(recipe.templateRecipe())
+            })
+        } else {
+            noRecipes.style.display = "block"
+        }
+    }
+    /* MAIN INPUT  */
+    eventMainInput() {
         this.mainInputSearch.addEventListener("input", (e) => {
             const recipesItem = document.querySelectorAll(".recipe")
-            console.log(this.filteredRecipes);
-            if(this.mainInputSearch.value.length < 3){
-                this.removeRecipes(recipesItem)
+            const listsItem = document.querySelectorAll(".list ul li")
+            if (this.mainInputSearch.value.length < 3) {
+                this.removeItems(listsItem)
+                this.removeItems(recipesItem)
                 this.displayRecipes(this.recipes)
-            }else{
-                this.search(this.recipes, this.mainInputSearch.value)
-                this.removeRecipes(recipesItem)
+                this.getIngredients(this.recipes)
+                this.getAppareils(this.recipes)
+                this.getUstensils(this.recipes)
+            } else {
+                this.filteredRecipes = this.filterByMainInput(this.recipes, this.mainInputSearch.value)
+                this.removeItems(recipesItem)
+                this.removeItems(listsItem)
                 this.displayRecipes(this.filteredRecipes)
+                this.ingredientsRecipes = []
+                this.getIngredients(this.filteredRecipes)
+                this.applianceRecipes = []
+                this.getAppareils(this.filteredRecipes)
+                this.ustensilesRecipes = []
+                this.getUstensils(this.filteredRecipes)
             }
         })
     }
-    addBtnFilterTagByInput() {
-        this.mainInputSearch.addEventListener("keypress", (e) => {
-            if (e.key === "Enter") {
-                if (this.mainInputSearch.value.length >= 3) {
-                    this.templatebtnFilterTag(this.mainInputSearch.value)
-                    this.filterRecipes(this.mainInputSearch.value)
-                    this.mainInputSearch.value = ""
+    filterByMainInput(arr, value) {
+       /*  arr.forEach((r) => {
+          const u =  r.ingredients.filter(el => el.ingredient.toLowerCase().includes(value.toLowerCase()))
+          console.log(u);
+        }) */
+   /*      ||   el.ingredients.filter(el => el.ingredient.toLowerCase().includes(value.toLowerCase())) */
+        const filtered = arr.filter(el => el.name.toLowerCase().includes(value.toLowerCase())  || el.description.toLowerCase().includes(value.toLowerCase()))
+      /*   console.log(filtered); */
+        return filtered
+    }
+    /* SECONDARY INPUT */
+    eventSecondaryInput() {
+        this.secondaryInputs.forEach((input) => {
+            input.addEventListener("input", (e) => {
+                if (e.target.classList.contains("inputIngredients")) {
+                    const listIngredient = document.querySelector(".listIngredients ul")
+                    const itemsListIngredient = document.querySelectorAll(".listIngredients ul li")
+                    this.removeItems(itemsListIngredient)
+                    const r = this.filterBySecondaryInput(this.ingredientsRecipes, input.value)
+                    this.templateItemList(r, listIngredient)
+                } else if (e.target.classList.contains("inputAppareil")) {
+                    const listAppareil = document.querySelector(".listAppareils ul")
+                    const itemsListAppareil = document.querySelectorAll(".listAppareils ul li");
+                    this.removeItems(itemsListAppareil)
+                    const r = this.filterBySecondaryInput(this.applianceRecipes, input.value)
+                    this.templateItemList(r, listAppareil)
+                } else if (e.target.classList.contains("inputUstensiles")) {
+                    const listUstensiles = document.querySelector(".listUstensiles ul")
+                    const itemsListUstensiles = document.querySelectorAll(".listUstensiles ul li ")
+                    this.removeItems(itemsListUstensiles)
+                    const r = this.filterBySecondaryInput(this.ustensilesRecipes, input.value)
+                    this.templateItemList(r, listUstensiles)
                 }
-            }
+            })
+            input.addEventListener("keypress", (e) => {
+                if (e.key === "Enter") {
+                    if (input.value.length >= 3) {
+                        this.templatebtnFilterTag(input.value, e.target.classList[0])
+                        console.log(input.value);
+                        this.filterTags.push(input.value)
+                        console.log(this.filterTags);
+                        /* input.value = "" */
+                    }
+                }
+            })
+        }
+        )
+    }
+    filterBySecondaryInput(arr, value) {
+        const filtered = arr.filter(el => el.toLowerCase().includes(value.toLowerCase()))
+        return filtered
+    }
+
+    filterByTags(tags, recipes){
+        //TODO FILTRER LES RECETTES AVEC LES FILTERTAG
+        console.log(tags);
+        console.log(recipes);
+    }
+
+
+    /* TEMPLATES */
+    templateItemList(arr, list) {
+        arr.forEach((i) => {
+            const li = document.createElement('li')
+            li.textContent = i
+            li.addEventListener("click", (e) => {
+                //TODO EVITER LES DOUBLOUS DE TAGS !
+                this.templatebtnFilterTag(e.target.textContent, e.path[3].classList[1])
+                this.filterTags.push(e.target.textContent)
+                this.filterByTags(this.filterTags,this.recipes)
+            })
+            list.append(li)
         })
     }
-    templatebtnFilterTag(mainInputSearch) {
+    templatebtnFilterTag(value, classColor) {
         const tagsIngredient = document.querySelector(".tagsIngredient")
         const tagBtn = document.createElement('button')
         tagBtn.classList.add("tagBtn")
-        tagBtn.setAttribute("value", mainInputSearch)
+        tagBtn.classList.add(classColor)
+        tagBtn.setAttribute("value", value)
         const iconDelete = document.createElement('i')
         iconDelete.classList.add("far", "fa-times-circle")
         iconDelete.addEventListener('click', (e) => {
             tagBtn.remove()
-            /*    this.removeTagFilter() */
+            const matchValue = (element) => element === tagBtn.value
+            const index  = this.filterTags.findIndex(matchValue)
+            this.filterTags.splice(index, 1)    
         })
-        tagBtn.append(mainInputSearch, iconDelete)
+        tagBtn.append(value, iconDelete)
         tagsIngredient.append(tagBtn);
         return tagsIngredient
     }
-    filterRecipes(value) {
-        this.findTags()
-        this.filteredRecipes = this.recipes.filter((recipe) => (recipe.id >= 49))
-        console.log(this.filteredRecipes);
-        const r = this.filteredRecipes.forEach((recipe) => {
-            /*   console.log(recipe); */
-            recipe.ingredients.forEach((ingredient) => {
-                /*  console.log(ingredient); */
-            })
-        })
-    }
-    findTags() {
-        const tagBtns = document.querySelectorAll(".tagBtn")
-        tagBtns.forEach((btn) => {
-            console.log(btn.value);
+    removeItems(arr) {
+        arr.forEach((i) => {
+            i.remove()
         })
     }
 
-    filterRecipesByBtns(){
-        const btns = document.querySelectorAll(".btn")
-        btns.forEach((btn) => {
-            btn.addEventListener("click", (e) => {
-                console.log(e.target);
-                if(e.target.classList.contains('btnIngredient')){
-                    console.log('ingredient');
-                }else if (e.target.classList.contains('btnAppareil')){
-                    console.log('appareil');
-                }else if (e.target.classList.contains('btnUstensile')){
-                    console.log('ustensile');
-                }
-            })
-        })
-    }
 }
 class Recipe {
     constructor(id, name, servings, ingredients = [], time, description, appliance, ustensils = []) {
@@ -178,7 +260,7 @@ class Service {
         const recipes = [
             {
                 "id": 1,
-                "name": "Limonade de Coco",
+                "name": "Limonade de coco",
                 "servings": 1,
                 "ingredients": [
                     {
@@ -197,7 +279,7 @@ class Service {
                     },
                     {
                         "ingredient": "Sucre",
-                        "quantite": 30,
+                        "quantity": 30,
                         "unit": "grammes"
                     },
                     {
@@ -236,7 +318,7 @@ class Service {
                         "quantity": 5
                     },
                     {
-                        "ingredient": "Lait de Coco",
+                        "ingredient": "Lait de coco",
                         "quantity": 100,
                         "unit": "ml"
                     }
@@ -273,7 +355,7 @@ class Service {
                         "quantity": 1
                     },
                     {
-                        "ingredient": "Huile d'olive"
+                        "ingredient": "huile d'olive"
                     }
                 ],
                 "time": 80,
@@ -490,7 +572,7 @@ class Service {
                         "ingredient": "Vinaigre Balsamic"
                     },
                     {
-                        "ingredient": "Huile d'olive"
+                        "ingredient": "huile d'olive"
                     },
                     {
                         "ingredient": "Basilic"
@@ -744,7 +826,7 @@ class Service {
                         "unit": "tiges"
                     },
                     {
-                        "ingredient": "huile d'olives",
+                        "ingredient": "huile d'olive",
                         "quantity": 2,
                         "unit": "cuillère à soupe"
                     }
@@ -910,15 +992,15 @@ class Service {
                         "unit": "cl"
                     },
                     {
-                        "ingredient": "Crème Fraiche",
+                        "ingredient": "Crème fraiche",
                         "quantity": 1,
                         "unit": "cuillères à soupe"
                     }
                 ],
                 "time": 30,
                 "description": "Cuisiner la viande hachée dans une poelle à frire. Dans une autre faire cuire les oignons découpés en fins dés avec un peu de beurre. Ajouter du vin rouge. Mélanger les oigons avec la viande hachée. Faire cuire les pates le temps indiqué sur le paquet. Ajouter le coulis de tomates à la viande hachée. Une fois que les pates sont cuites, ajouter la crème fraiche à la viande hachée. Serivir.",
-                "appliance": "Casserolle.",
-                "ustensils": ["Cuillère en bois", "louche", "couteau"]
+                "appliance": "Casserolle",
+                "ustensils": ["cuillère en bois", "louche", "couteau"]
             },
             {
                 "id": 22,
@@ -980,7 +1062,7 @@ class Service {
                         "quantity": 3
                     },
                     {
-                        "ingredient": "Crème Fraîche",
+                        "ingredient": "Crème fraiche",
                         "quantity": 20,
                         "unit": "cl"
                     },
@@ -991,7 +1073,7 @@ class Service {
                     }
                 ],
                 "time": 60,
-                "description": "Etaler la pate dans un moule et la piquer.Parsemer de beurre. Faire chauffer les lardon dans une poêle. Battre les oeufs en ajoutant la crème fraîche et le lait. Finalement ajouter les lardons, salez poivrez à votre gout. Verser l'ensemble sur la pâte. Cuire environ 50 minutes.",
+                "description": "Etaler la pate dans un moule et la piquer.Parsemer de beurre. Faire chauffer les lardon dans une poêle. Battre les oeufs en ajoutant la crème fraiche et le lait. Finalement ajouter les lardons, salez poivrez à votre gout. Verser l'ensemble sur la pâte. Cuire environ 50 minutes.",
                 "appliance": "Four",
                 "ustensils": ["moule à gateaux", "rouleau à patisserie", "fouet"]
             },
@@ -1083,7 +1165,7 @@ class Service {
                         "quantity": 1
                     },
                     {
-                        "ingredient": "Huile d'olives"
+                        "ingredient": "huile d'olive"
                     },
                     {
                         "ingredient": "Oignon",
@@ -1114,7 +1196,7 @@ class Service {
                         "quantity": 1
                     },
                     {
-                        "ingredient": "Crème fraîche",
+                        "ingredient": "Crème fraiche",
                         "quantity": 4,
                         "unit": "cuillère à soupe"
                     },
@@ -1189,7 +1271,7 @@ class Service {
                         "quantity": 2
                     },
                     {
-                        "ingredient": "Huile d'olive"
+                        "ingredient": "huile d'olive"
                     },
                     {
                         "ingredient": "Paprika"
@@ -1346,12 +1428,12 @@ class Service {
                         "unit": "grammes"
                     },
                     {
-                        "ingredient": "Crème fraîche",
+                        "ingredient": "Crème fraiche",
                         "quantity": 20,
                         "unit": "cl"
                     },
                     {
-                        "ingredient": "Huile d'olive"
+                        "ingredient": "huile d'olive"
                     },
                     {
                         "ingredient": "Orange",
@@ -1382,7 +1464,7 @@ class Service {
                         "unit": "grammes"
                     },
                     {
-                        "ingredient": "Crème fraîche",
+                        "ingredient": "Crème fraiche",
                         "quantity": 2,
                         "unit": "cuillères à soupe"
                     },
@@ -1456,7 +1538,7 @@ class Service {
                         "unit": "grammes"
                     },
                     {
-                        "ingredient": "Huile d'olives",
+                        "ingredient": "huile d'olive",
                         "quantity": 25,
                         "unit": "cl"
                     },
@@ -1509,7 +1591,7 @@ class Service {
                 "time": 20,
                 "description": "Fouettez les oeufs, le sucre et le lait. tremper les tranches de pain. Le cuire au four pendant environ 10 minutes à 180°. Servir",
                 "appliance": "Four",
-                "ustensils": ["fouet", "bol", "Cuillère à Soupe"]
+                "ustensils": ["fouet", "bol", "cuillère à Soupe"]
             },
             {
                 "id": 39,
@@ -1785,7 +1867,7 @@ class Service {
                         "unit": "grammes"
                     },
                     {
-                        "ingredient": "Crème Fraîche",
+                        "ingredient": "Crème fraiche",
                         "quantity": 20,
                         "unit": "cl"
                     }

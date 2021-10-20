@@ -42,31 +42,29 @@ header .tagsIngredient {
 }
 header .btnsToFilter {
   margin-top: 25px;
-}
-header .btnsToFilter .btn {
-  border: none;
-  padding: 10px 12px;
-  border-radius: 4px;
-  color: white;
-}
-header .btnsToFilter .btnIngredient {
-  background: #0ca2e7;
-}
-header .btnsToFilter .btnAppareil {
-  background: #18eb69;
-}
-header .btnsToFilter .btnUstensile {
-  background: #d13333;
+  /* display: flex; */
 }
 header .btnsToFilter .inputItem {
-  width: 220px;
   border-radius: 4px;
   font-family: "Lato", sans-serif;
+  margin-right: 10px;
+}
+header .btnsToFilter .inputItem .input {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+}
+header .btnsToFilter .inputItem .fa-chevron-up {
+  display: none;
 }
 header .btnsToFilter .inputItem input {
+  border-radius: 4px;
   padding: 10px 6px;
   border: none;
   color: white;
+  min-width: 30%;
+  background-color: black;
 }
 header .btnsToFilter .inputItem input:focus {
   outline: none;
@@ -74,33 +72,69 @@ header .btnsToFilter .inputItem input:focus {
 header .btnsToFilter .inputItem input::placeholder {
   color: white;
 }
+header .btnsToFilter .inputItem input::-ms-clear {
+  display: none;
+}
 header .btnsToFilter .inputItem i {
   color: white;
   cursor: pointer;
 }
-header .btnsToFilter .inputIngredients {
-  background: #0ca2e7;
+header .btnsToFilter .list {
+  padding: 0 10px 10px 10px;
+  display: none;
 }
-header .btnsToFilter .listIngredients {
-  padding: 10px 0 10px 0;
-}
-header .btnsToFilter .listIngredients ul {
+header .btnsToFilter .list ul {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  list-style: none;
-  align-items: center;
   max-height: 200px;
+  /* background-color: red; */
+  list-style: none;
   justify-content: space-evenly;
+  overflow: auto;
 }
-header .btnsToFilter .listIngredients ul li {
+header .btnsToFilter .list ul li {
+  font-size: 14px;
+  padding: 5px;
   font-family: lato;
   color: white;
+  cursor: pointer;
+}
+
+.inputIngredients {
+  background: #0ca2e7;
+}
+.inputIngredients:hover .fa-chevron-down {
+  display: none;
+}
+.inputIngredients:hover .fa-chevron-up {
+  display: block !important;
+}
+.inputIngredients:hover .list {
+  display: block;
+}
+
+.inputAppareil {
+  background: #18eb69;
+}
+.inputAppareil:hover .list {
+  display: block;
+}
+
+.inputUstensiles {
+  background: #ED6454;
+}
+.inputUstensiles:hover .list {
+  display: block;
 }
 
 /* MAIN */
 main {
   padding: 30px;
+}
+main .noRecipes {
+  text-align: center;
+  display: none;
 }
 main .recipes {
   display: grid;
@@ -180,7 +214,7 @@ main .recipes .recipe__content .info .desc p {
   padding: 4px 12px;
   border-radius: 4px;
   color: white;
-  background: #0ca2e7;
+  /* background: rgb(12, 162, 231); */
 }
 .tagBtn i {
   margin-left: 0.25rem;

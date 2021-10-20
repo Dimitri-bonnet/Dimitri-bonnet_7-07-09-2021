@@ -41,68 +41,106 @@ header {
   }
   .btnsToFilter {
     margin-top: 25px;
-    .btn {
-      border: none;
-      padding: 10px 12px;
-      border-radius: 4px;
-      color: white;
-    }
-    .btnIngredient {
-      background: rgb(12, 162, 231);
-    }
-    .btnAppareil {
-      background: rgb(24, 235, 105);
-    }
-    .btnUstensile {
-      background: rgb(209, 51, 51);
-    }
-    .inputItem{
-      width: 220px;
+    /* display: flex; */
+    .inputItem{   
       border-radius: 4px;
       font-family: 'Lato', sans-serif;
+      margin-right: 10px;
+      .input{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px;
+      }
+      .fa-chevron-up{
+        display: none;
+      }
       input{
+        border-radius: 4px;
         padding: 10px 6px;
         border: none;
         color: white;
-
+        min-width: 30%;
+        background-color: black;
         &:focus{
           outline: none;
         }
         &::placeholder{
-          color: white;
-          
+          color: white;  
+        }
+        &::-ms-clear{
+          display: none;
         }
       }
       i{
        color: white;
         cursor: pointer;
       }
+     
     }
-    .inputIngredients{
-      background: rgb(12, 162, 231);
-    }
-    .listIngredients{
-      padding: 10px 0 10px 0;
+  
+    .list{
+      padding: 0 10px 10px 10px;
+      display: none;
       ul{
+       
         display: flex;
         flex-direction: column;
         flex-wrap: wrap;
-        list-style: none;
-        align-items: center;
         max-height: 200px;
+        /* background-color: red; */
+        list-style: none;
         justify-content: space-evenly;
+        overflow: auto;
         li{
+          font-size: 14px;
+          padding: 5px;
           font-family: lato;
           color: white;
+          cursor: pointer;
         }
       }
     }
   }
 }
-
+.inputIngredients{
+  background: rgb(12, 162, 231);
+  &:hover{
+    .fa-chevron-down{
+      display: none;
+    }
+    .fa-chevron-up{
+      display: block !important;
+    }
+    .list{
+      display: block;
+    }
+  }
+  
+}
+.inputAppareil{
+  background: rgb(24, 235, 105);
+  &:hover{
+    .list{
+      display: block;
+    }
+  }
+}
+.inputUstensiles{
+  background:  #ED6454;
+  &:hover{
+    .list{
+      display: block;
+    }
+  }
+}
 /* MAIN */
 main {
   padding: 30px;
+  .noRecipes {
+    text-align: center;
+    display: none;
+  }
   .recipes {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -175,6 +213,7 @@ main {
     }
   }
 }
+
 .tagBtn{
   display: flex;
   align-items: center;
@@ -183,7 +222,7 @@ main {
   padding: 4px 12px;
   border-radius: 4px;
   color: white;
-  background: rgb(12, 162, 231);
+  /* background: rgb(12, 162, 231); */
   i{
     margin-left: 00.25rem;
     &:hover{

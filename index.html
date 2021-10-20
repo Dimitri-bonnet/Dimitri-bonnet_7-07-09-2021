@@ -19,55 +19,52 @@
             <img src="logo.png" alt="">
         </div>
         <div class="search">
-            <input id="search" type="search" placeholder="Rechercher un ingrediet,appreil, ustensiles ou une recette">
+            <input id="search" type="text" placeholder="Rechercher un ingrediet,appreil, ustensiles ou une recette">
             <label for="search"><i class="fas fa-search"></i></label>
         </div>
         <div class="tagsIngredient"></div>
         <div class="btnsToFilter">
-            <button class="btn btnIngredient">Ingrédients <i class="fas fa-angle-down"></i></button>
-            <button class="btn btnAppareil">Appareil <i class="fas fa-angle-down"></i></button>
-            <button class="btn btnUstensile">Ustensiles <i class="fas fa-angle-down"></i></button>
             <div class="inputItem inputIngredients"> 
-                <input class="inputIngredients" type="text" placeholder="Ingrédients">
-                <i class="fas fa-chevron-down"></i>
-                <div class="listIngredients">
-                    <ul>
-                        <li>Item1</li>
-                        <li>Item2</li>
-                        <li>Item1</li>
-                        <li>Item2</li>
-                        <li>Item1</li>
-                        <li>Item2</li>
-                        <li>Item1</li>
-                        <li>Item2</li>
-                        <li>Item1</li>
-                        <li>Item2</li>
-                        <li>Item1</li>
-                        <li>Item2</li>
-                        <li>Item1</li>
-                        <li>Item2</li>
-                        <li>Item1</li>
-                        <li>Item2</li>
-                        <li>Item1</li>
-                        <li>Item2</li>
-                        <li>Item1</li>
-                        <li>Item2</li>
-                        <li>Item1</li>
-                        <li>Item2</li>
-                        <li>Item1</li>
-                        <li>Item2</li>
-                        <li>Item1</li>
-                        <li>Item2</li>
-                        <li>Item1</li>
-                        <li>Item2</li>
-                        
-                    </ul>
+                <div class="input"> 
+                    <input class="inputIngredients" type="text" placeholder="Rechercher un ingrédients">
+                    <i class="fas fa-chevron-down"></i>
+                    <i class="fas fa-chevron-up"></i>
+                </div>
+                <div class="list listIngredients">
+                    <ul></ul>
+                </div>
+            </div>
+            <div class="inputItem inputAppareil">
+                <div class="input">
+                    <input class="inputAppareil" type="text" placeholder="Rechercher un appareil">
+                    <i class="fas fa-chevron-down"></i>
+                    <i class="fas fa-chevron-up"></i>
+                </div>
+                
+                <div class="list listAppareils">
+                    <ul></ul>
+                </div>
+            </div>
+            <div class="inputItem inputUstensiles"> 
+                <div class="input">
+                    <input class="inputUstensiles" type="text" placeholder="Rechercher un ustensile">
+                    <i class="fas fa-chevron-down"></i>
+                    <i class="fas fa-chevron-up"></i>
+                </div> 
+                <div class="list listUstensiles">
+                    <ul></ul>
                 </div>
             </div>
         </div>
     </header>
     <main>
-        <div class="recipes"></div>
+        <div class="noRecipes">
+            <p>« Aucune recette ne correspond à votre critère… vous pouvez
+                chercher « tarte aux pommes », « poisson », etc.</p>
+        </div>
+        <div class="recipes">
+            
+        </div>
     </main>
 
     <script src="main.js"></script>
