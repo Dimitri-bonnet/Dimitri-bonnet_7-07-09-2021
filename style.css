@@ -224,19 +224,18 @@ main .recipes .recipe__content .info .desc p {
   transform: scale(1.1);
 }
 
-@media screen and (max-width: 750px) {
+@media screen and (max-width: 900px) {
   .recipes {
-    background-color: blueviolet;
-    /* display: grid; */
-    grid-template-columns: repeat(1, 1fr);
-    grid-gap: 40px;
+    /*    background-color: rgb(86, 226, 43); */
+    /*   display: grid; */
+    grid-template-columns: repeat(2, 1fr) !important;
   }
 }
-@media screen and (min-width: 751px) and (max-width: 1000px) {
+@media screen and (max-width: 750px) {
   .recipes {
-    /*  display: grid; */
-    grid-template-columns: repeat(2, 1fr);
-    grid-gap: 40px;
+    /*     background-color: blueviolet; */
+    /*   display: grid; */
+    grid-template-columns: repeat(1, 1fr) !important;
   }
 }
 
