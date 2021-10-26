@@ -3,6 +3,7 @@ class HomePage {
         this.service = service;
         this.recipes = [];
         this.filteredRecipes = [];
+        this.filteredRecipesByTags = []
         this.ingredientsRecipes = []
         this.applianceRecipes = []
         this.ustensilesRecipes = []
@@ -18,7 +19,7 @@ class HomePage {
     }
     init() {
         this.getRecipes()
-        this.displayManagement()
+        this.displayManagement(this.recipes)
         this.eventMainInput()
         this.eventSecondaryInput()
     }
@@ -61,38 +62,31 @@ class HomePage {
             noRecipes.style.display = "block"
         }
     }
-    displayManagement() {
+    displayManagement(recipes) {
         const recipesItem = document.querySelectorAll(".recipe")
         const listsItem = document.querySelectorAll(".list ul li")
         this.removeItems(listsItem)
         this.removeItems(recipesItem)
-        if (this.filteredRecipes.length >= 1) {
-            this.displayRecipes(this.filteredRecipes)
-            this.ingredientsRecipes = []
-            this.getIngredients(this.filteredRecipes)
-            this.applianceRecipes = []
-            this.getAppareils(this.filteredRecipes)
-            this.ustensilesRecipes = []
-            this.getUstensils(this.filteredRecipes)
-        } else {
-            this.displayRecipes(this.recipes)
-            this.getIngredients(this.recipes)
-            this.getAppareils(this.recipes)
-            this.getUstensils(this.recipes)
-        }
+        /*  */
+        this.displayRecipes(recipes)
+        this.ingredientsRecipes = []
+        this.getIngredients(recipes)
+        this.applianceRecipes = []
+        this.getAppareils(recipes)
+        this.ustensilesRecipes = []
+        this.getUstensils(recipes)
+
     }
     /* MAIN INPUT  */
     eventMainInput() {
         this.mainInputSearch.addEventListener("input", (e) => {
             if (this.mainInputSearch.value.length < 3) {
                 this.filteredRecipes = []
-                this.displayManagement()
-                this.filterByTags(this.tagsIngredient, this.tagsAppliance, this.tagsUstensile, this.recipes)
+                this.displayManagement(this.recipes)
             } else {
                 this.filteredRecipes = this.filterByMainInput(this.recipes, this.mainInputSearch.value)
+                this.displayManagement(this.filteredRecipes)
                 console.log(this.filteredRecipes);
-                this.displayManagement()
-                this.filterByTags(this.tagsIngredient, this.tagsAppliance, this.tagsUstensile, this.filteredRecipes)
             }
         })
     }
@@ -141,30 +135,34 @@ class HomePage {
     }
     filterByTags(tagsIngredient, tagsAppliance, tagsUstensile, arrRecipes) {
         console.log(tagsIngredient);
-        console.log(tagsAppliance);
-        console.log(tagsUstensile);
         if (this.tagsIngredient.length >= 1 || this.tagsAppliance.length >= 1 || this.tagsUstensile.length >= 1) {
             if (this.tagsIngredient.length >= 1) {
                 tagsIngredient.forEach((tag) => {
                     arrRecipes.forEach((recipe) => {
                         recipe.ingredients.forEach((i) => {
-                            if (i.ingredient.toLowerCase().includes(tag.toLowerCase())) {
-                                this.filteredRecipes.push(recipe)
+                            if(i.ingredient.toLowerCase() === tag.toLowerCase()){
+                                console.log(recipe);
+                               /*  this.filteredRecipesByTags.push(recipe)
+                                this.filteredRecipesByTags = [...new Set(this.filteredRecipesByTags)]
+                                this.displayManagement(this.filteredRecipesByTags) */
+                                
                             }
                         })
                     })
                 })
             }
-            if (this.tagsAppliance.length >= 1) {
+         /*     if (this.tagsAppliance.length >= 1) {
                 tagsAppliance.forEach((tag) => {
                     arrRecipes.forEach((recipe) => {
                         if (recipe.appliance.toLowerCase().includes(tag.toLowerCase())) {
-                            this.filteredRecipes.push(recipe)
+                            this.filteredRecipesByTags.push(recipe)
+                            this.filteredRecipesByTags = [...new Set(this.filteredRecipesByTags)]
+                            this.displayManagement(this.filteredRecipesByTags)
                         }
                     })
                 })
-            }
-            if (this.tagsUstensile.length >= 1) {
+            } */
+           /*  if (this.tagsUstensile.length >= 1) {
                 tagsUstensile.forEach((tag) => {
                     arrRecipes.forEach((recipe) => {
                         recipe.ustensils.forEach((u) => {
@@ -174,14 +172,12 @@ class HomePage {
                         })
                     })
                 })
-            }
-            this.filteredRecipes = [...new Set(this.filteredRecipes)]
-            this.displayManagement()
-        } else {
-            console.log('ici');
-            console.log(arrRecipes);
-            this.displayManagement()
-        }
+            } */
+         }else {
+             this.displayManagement(this.recipes)
+         }
+         console.log(this.filteredRecipesByTags);
+         this.filteredRecipesByTags = []
     }
     /* TEMPLATES */
     templateItemList(arr, list) {
@@ -200,9 +196,10 @@ class HomePage {
                     this.templatebtnFilterTag(e.target.textContent, e.path[3].classList[1])
                 }
                 if(this.filteredRecipes.length >= 1){
+                    console.log('filtered recipes oui');
                     this.filterByTags(this.tagsIngredient, this.tagsAppliance, this.tagsUstensile, this.filteredRecipes)
                 }else{
-                    this.filterByTags(this.tagsIngredient, this.tagsAppliance, this.tagsUstensile, this.recipes)
+                /*     this.filterByTags(this.tagsIngredient, this.tagsAppliance, this.tagsUstensile, this.recipes) */
                 }
                 
             })
@@ -220,9 +217,11 @@ class HomePage {
         iconDelete.addEventListener('click', (e) => {
             this.removeBtnTag(tagBtn, e)
             if(this.filteredRecipes.length >= 1){
-                this.filterByTags(this.tagsIngredient, this.tagsAppliance, this.tagsUstensile, this.filteredRecipes)
+                this.displayManagement(this.filteredRecipes)
+               /*  this.filterByTags(this.tagsIngredient, this.tagsAppliance, this.tagsUstensile, this.filteredRecipes) */
             }else{
-                this.filterByTags(this.tagsIngredient, this.tagsAppliance, this.tagsUstensile, this.recipes)
+                /* this.displayManagement(this.recipes) */
+                /* this.filterByTags(this.tagsIngredient, this.tagsAppliance, this.tagsUstensile, this.recipes) */
             }
         })
         tagBtn.append(value, iconDelete)
@@ -251,3 +250,7 @@ class HomePage {
 }
 const homePage = new HomePage(new Service())
 homePage.init()
+
+
+/* Hello, je suis actuellement sur le P7 et je bloque sur le système de tags, j'arrive a filtrer les recettes avec un tag mais quand il y en a deux j'ai mon tableau avec les recettes comprenant chacun un tag. Je voudrais faire comme les règles indiquées, si il y a les tags coco et chocolat, je dois normalement récupérer les recettes qui ont à la fois de la coco et du chocolat. Je bloque totalement, si une personne a fait récemment ou non le P7 pour pouvoir m'aiguiller ca serait cool ! 
+Merci d'avance !  */

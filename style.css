@@ -16,6 +16,9 @@ header .brand {
   display: flex;
   justify-content: center;
 }
+header .brand img {
+  width: 280px;
+}
 header .search {
   display: flex;
   align-items: center;
@@ -42,7 +45,7 @@ header .tagsIngredient {
 }
 header .btnsToFilter {
   margin-top: 25px;
-  /* display: flex; */
+  display: flex;
 }
 header .btnsToFilter .inputItem {
   border-radius: 4px;
@@ -64,7 +67,7 @@ header .btnsToFilter .inputItem input {
   border: none;
   color: white;
   min-width: 30%;
-  background-color: black;
+  /* background-color: black; */
 }
 header .btnsToFilter .inputItem input:focus {
   outline: none;
@@ -232,6 +235,13 @@ main .recipes .recipe__content .info .desc p {
   }
 }
 @media screen and (max-width: 750px) {
+  .btnsToFilter {
+    flex-direction: column;
+  }
+  .btnsToFilter .inputItem {
+    margin: 10px;
+  }
+
   .recipes {
     /*     background-color: blueviolet; */
     /*   display: grid; */

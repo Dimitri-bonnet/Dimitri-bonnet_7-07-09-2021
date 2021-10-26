@@ -14,6 +14,9 @@ header {
   .brand {
     display: flex;
     justify-content: center;
+    img{
+      width: 280px;
+    }
   }
   .search {
     display: flex;
@@ -41,13 +44,15 @@ header {
   }
   .btnsToFilter {
     margin-top: 25px;
-    /* display: flex; */
+    display: flex;
+ 
     .inputItem{   
       border-radius: 4px;
       font-family: 'Lato', sans-serif;
       margin-right: 10px;
       .input{
         display: flex;
+    
         align-items: center;
         justify-content: space-between;
         padding: 10px;
@@ -61,7 +66,7 @@ header {
         border: none;
         color: white;
         min-width: 30%;
-        background-color: black;
+        /* background-color: black; */
         &:focus{
           outline: none;
         }
@@ -241,6 +246,12 @@ main {
   }
 }
 @media screen and (max-width: 750px) {
+  .btnsToFilter{
+    flex-direction: column;
+    .inputItem{
+      margin: 10px;
+    }
+  }
   .recipes{
 /*     background-color: blueviolet; */
   /*   display: grid; */
