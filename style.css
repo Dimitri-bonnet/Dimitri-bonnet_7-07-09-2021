@@ -17,7 +17,8 @@ header .brand {
   justify-content: center;
 }
 header .brand img {
-  width: 280px;
+  width: 30vw;
+  min-width: 280px;
 }
 header .search {
   display: flex;
