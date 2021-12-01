@@ -11,6 +11,7 @@
 /* HEADER */
 header {
   margin: 30px;
+  position: relative;
 }
 header .brand {
   display: flex;
@@ -33,42 +34,45 @@ header .search input {
   border-radius: 4px;
   outline: none;
   border: none;
-  padding: 15px;
+  padding: 5px;
+  height: 50px;
 }
 header .search label {
   border-radius: 4px;
   padding: 10px;
   cursor: pointer;
 }
-header .tagsIngredient {
-  margin: 25px 0 0 0;
+header .tagsRecipes {
+  margin: 15px 0 15px 0;
   display: flex;
 }
+header .tagsRecipes i {
+  font-size: 20px;
+}
+header .activeInput {
+  display: block;
+}
 header .btnsToFilter {
-  margin-top: 25px;
   display: flex;
 }
 header .btnsToFilter .inputItem {
   border-radius: 4px;
   font-family: "Lato", sans-serif;
-  margin-right: 10px;
+  margin-right: 5px;
+  min-width: 220px;
 }
 header .btnsToFilter .inputItem .input {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px;
-}
-header .btnsToFilter .inputItem .fa-chevron-up {
-  display: none;
+  height: 50px;
 }
 header .btnsToFilter .inputItem input {
+  position: relative;
   border-radius: 4px;
   padding: 10px 6px;
   border: none;
   color: white;
-  min-width: 30%;
-  /* background-color: black; */
 }
 header .btnsToFilter .inputItem input:focus {
   outline: none;
@@ -82,19 +86,20 @@ header .btnsToFilter .inputItem input::-ms-clear {
 header .btnsToFilter .inputItem i {
   color: white;
   cursor: pointer;
+  padding: 10px;
 }
 header .btnsToFilter .list {
-  padding: 0 10px 10px 10px;
+  position: absolute;
   display: none;
+  z-index: 99;
+  border-bottom-right-radius: 4px;
+  border-bottom-left-radius: 4px;
 }
 header .btnsToFilter .list ul {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   max-height: 200px;
-  /* background-color: red; */
   list-style: none;
-  justify-content: space-evenly;
   overflow: auto;
 }
 header .btnsToFilter .list ul li {
@@ -105,36 +110,59 @@ header .btnsToFilter .list ul li {
   cursor: pointer;
 }
 
+.listIsActive {
+  display: block !important;
+  width: 28vw;
+}
+
 .inputIngredients {
   background: #0ca2e7;
 }
-.inputIngredients:hover .fa-chevron-down {
-  display: none;
+.inputIngredients ul::-webkit-scrollbar {
+  width: 6px;
+  background-color: #0ca2e7;
 }
-.inputIngredients:hover .fa-chevron-up {
-  display: block !important;
-}
-.inputIngredients:hover .list {
-  display: block;
+.inputIngredients ul::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.452);
 }
 
 .inputAppareil {
   background: #18eb69;
 }
-.inputAppareil:hover .list {
-  display: block;
+.inputAppareil ul::-webkit-scrollbar {
+  width: 6px;
+  background: #18eb69;
+}
+.inputAppareil ul::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.452);
 }
 
 .inputUstensiles {
   background: #ED6454;
 }
-.inputUstensiles:hover .list {
-  display: block;
+.inputUstensiles ul::-webkit-scrollbar {
+  width: 6px;
+  background: #ED6454;
+}
+.inputUstensiles ul::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.452);
+}
+
+.listIngredients {
+  background-color: #0ca2e7;
+}
+
+.listUstensiles {
+  background: #ED6454;
+}
+
+.listAppareils {
+  background: #18eb69;
 }
 
 /* MAIN */
 main {
-  padding: 30px;
+  padding: 0 30px 30px 30px;
 }
 main .noRecipes {
   text-align: center;
@@ -185,7 +213,6 @@ main .recipes .recipe__content .info .ingredients {
 main .recipes .recipe__content .info .ingredients ul {
   margin: 0;
   padding: 0;
-  /* background-color: blueviolet; */
 }
 main .recipes .recipe__content .info .ingredients ul li {
   list-style: none;
@@ -218,7 +245,6 @@ main .recipes .recipe__content .info .desc p {
   padding: 4px 12px;
   border-radius: 4px;
   color: white;
-  /* background: rgb(12, 162, 231); */
 }
 .tagBtn i {
   margin-left: 0.25rem;
@@ -230,22 +256,33 @@ main .recipes .recipe__content .info .desc p {
 
 @media screen and (max-width: 900px) {
   .recipes {
-    /*    background-color: rgb(86, 226, 43); */
-    /*   display: grid; */
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  .list ul {
     grid-template-columns: repeat(2, 1fr) !important;
   }
 }
 @media screen and (max-width: 750px) {
+  .list {
+    position: inherit !important;
+    width: 100%;
+  }
+  .list ul {
+    width: inherit !important;
+    min-width: none !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+
   .btnsToFilter {
     flex-direction: column;
   }
   .btnsToFilter .inputItem {
-    margin: 10px;
+    margin-bottom: 10px;
+    width: inherit !important;
   }
 
   .recipes {
-    /*     background-color: blueviolet; */
-    /*   display: grid; */
     grid-template-columns: repeat(1, 1fr) !important;
   }
 }

@@ -11,6 +11,7 @@
 /* HEADER */
 header {
     margin: 30px;
+    position: relative;
   .brand {
     display: flex;
     justify-content: center;
@@ -31,7 +32,8 @@ header {
       border-radius: 4px;
       outline: none;
       border: none;
-      padding: 15px;
+      padding: 5px;
+      height: 50px;
     }
     label {
       border-radius: 4px;
@@ -39,35 +41,38 @@ header {
       cursor: pointer;
     }
   }
-  .tagsIngredient{
-    margin: 25px 0 0 0;
+  .tagsRecipes{
+    margin: 15px 0 15px 0;
     display: flex;
+    
+    i{
+      font-size: 20px;
+    }
   }
+  .activeInput{
+    display: block;
+  }
+
+
   .btnsToFilter {
-    margin-top: 25px;
     display: flex;
- 
-    .inputItem{   
+    .inputItem{  
       border-radius: 4px;
       font-family: 'Lato', sans-serif;
-      margin-right: 10px;
+      margin-right: 5px;
+      min-width: 220px;
       .input{
         display: flex;
-    
         align-items: center;
         justify-content: space-between;
-        padding: 10px;
-      }
-      .fa-chevron-up{
-        display: none;
+        height: 50px;
       }
       input{
+        position: relative;
         border-radius: 4px;
         padding: 10px 6px;
         border: none;
         color: white;
-        min-width: 30%;
-        /* background-color: black; */
         &:focus{
           outline: none;
         }
@@ -79,24 +84,24 @@ header {
         }
       }
       i{
-       color: white;
+        color: white;
         cursor: pointer;
+        padding: 10px;
       }
      
     }
   
     .list{
-      padding: 0 10px 10px 10px;
+      position: absolute;
       display: none;
+      z-index: 99;  
+      border-bottom-right-radius: 4px;
+      border-bottom-left-radius: 4px;
       ul{
-       
-        display: flex;
-        flex-direction: column;
-        flex-wrap: wrap;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
         max-height: 200px;
-        /* background-color: red; */
         list-style: none;
-        justify-content: space-evenly;
         overflow: auto;
         li{
           font-size: 14px;
@@ -109,40 +114,66 @@ header {
     }
   }
 }
+.listIsActive{
+  display: block !important;
+  width: 28vw;
+  
+}
 .inputIngredients{
   background: rgb(12, 162, 231);
-  &:hover{
-    .fa-chevron-down{
-      display: none;
+  ul{
+    &::-webkit-scrollbar{
+      width: 6px;  
+      background-color: rgb(12, 162, 231);
+
     }
-    .fa-chevron-up{
-      display: block !important;
+    &::-webkit-scrollbar-thumb {
+      background-color: rgba(0, 0, 0, 0.452);
+     
     }
-    .list{
-      display: block;
-    }
-  }
-  
+  }  
 }
 .inputAppareil{
   background: rgb(24, 235, 105);
-  &:hover{
-    .list{
-      display: block;
+  ul{
+    &::-webkit-scrollbar{
+      width: 6px;
+      background: rgb(24, 235, 105);
     }
-  }
+    &::-webkit-scrollbar-thumb {
+      background-color: rgba(0, 0, 0, 0.452);
+     
+    }
+  }  
 }
 .inputUstensiles{
   background:  #ED6454;
-  &:hover{
-    .list{
-      display: block;
+  ul{
+    &::-webkit-scrollbar{
+      width: 6px;
+      background:  #ED6454;
     }
-  }
+    &::-webkit-scrollbar-thumb {
+      background-color: rgba(0, 0, 0, 0.452);
+     
+    }
+  }  
+  
+}
+
+.listIngredients{
+  background-color: rgb(12, 162, 231)
+}
+.listUstensiles{
+  background:  #ED6454;
+}
+.listAppareils{
+  background: rgb(24, 235, 105);
 }
 /* MAIN */
 main {
-  padding: 30px;
+  padding: 0 30px 30px 30px;
+
   .noRecipes {
     text-align: center;
     display: none;
@@ -189,7 +220,6 @@ main {
             ul{
               margin: 0;
               padding: 0;
-              /* background-color: blueviolet; */
               li {
                 list-style: none;
                 display: flex;
@@ -228,7 +258,6 @@ main {
   padding: 4px 12px;
   border-radius: 4px;
   color: white;
-  /* background: rgb(12, 162, 231); */
   i{
     margin-left: 00.25rem;
     &:hover{
@@ -241,21 +270,33 @@ main {
 
 @media screen and (max-width: 900px) {
   .recipes{
- /*    background-color: rgb(86, 226, 43); */
-  /*   display: grid; */
     grid-template-columns: repeat(2, 1fr) !important;
+  }
+  .list{
+    ul{
+      grid-template-columns: repeat(2, 1fr) !important;
+    }
   }
 }
 @media screen and (max-width: 750px) {
+  .list{
+    position: inherit !important;
+    width: 100%;
+    ul{
+      width: inherit !important;
+      min-width: none !important;
+      grid-template-columns: repeat(3, 1fr) !important;
+    }
+  }
   .btnsToFilter{
     flex-direction: column;
     .inputItem{
-      margin: 10px;
+      margin-bottom: 10px;
+      width: inherit !important;
+
     }
   }
   .recipes{
-/*     background-color: blueviolet; */
-  /*   display: grid; */
     grid-template-columns: repeat(1, 1fr) !important;
   }
 }

@@ -134,51 +134,55 @@ class HomePage {
         return filtered
     }
     filterByTags(tagsIngredient, tagsAppliance, tagsUstensile, arrRecipes) {
+        console.log('filter by tags');
         console.log(tagsIngredient);
+        console.log(arrRecipes);
         if (this.tagsIngredient.length >= 1 || this.tagsAppliance.length >= 1 || this.tagsUstensile.length >= 1) {
             if (this.tagsIngredient.length >= 1) {
                 tagsIngredient.forEach((tag) => {
                     arrRecipes.forEach((recipe) => {
                         recipe.ingredients.forEach((i) => {
-                            if(i.ingredient.toLowerCase() === tag.toLowerCase()){
-                                console.log(recipe);
-                               /*  this.filteredRecipesByTags.push(recipe)
-                                this.filteredRecipesByTags = [...new Set(this.filteredRecipesByTags)]
-                                this.displayManagement(this.filteredRecipesByTags) */
-                                
+                            if (i.ingredient.toLowerCase() === tag.toLowerCase()) {
+                                this.pushUniqueFilteredRecipesByTags(recipe)
+                                this.displayManagement(this.filteredRecipesByTags)
                             }
                         })
                     })
                 })
             }
-         /*     if (this.tagsAppliance.length >= 1) {
+          /*   if (this.tagsAppliance.length >= 1) {
                 tagsAppliance.forEach((tag) => {
                     arrRecipes.forEach((recipe) => {
                         if (recipe.appliance.toLowerCase().includes(tag.toLowerCase())) {
-                            this.filteredRecipesByTags.push(recipe)
-                            this.filteredRecipesByTags = [...new Set(this.filteredRecipesByTags)]
+                            this.pushUniqueFilteredRecipesByTags(recipe)
                             this.displayManagement(this.filteredRecipesByTags)
                         }
                     })
                 })
-            } */
-           /*  if (this.tagsUstensile.length >= 1) {
+            }
+            if (this.tagsUstensile.length >= 1) {
                 tagsUstensile.forEach((tag) => {
                     arrRecipes.forEach((recipe) => {
                         recipe.ustensils.forEach((u) => {
                             if (u.toLowerCase().includes(tag.toLowerCase())) {
-                                this.filteredRecipes.push(recipe)
+                                this.pushUniqueFilteredRecipesByTags(recipe)
+                                this.displayManagement(this.filteredRecipesByTags)
                             }
                         })
                     })
                 })
             } */
-         }else {
-             this.displayManagement(this.recipes)
-         }
-         console.log(this.filteredRecipesByTags);
-         this.filteredRecipesByTags = []
+        } else {
+            this.displayManagement(this.recipes)
+        }
+/*         this.filteredRecipesByTags = [] */
     }
+    pushUniqueFilteredRecipesByTags(recipe) {
+        this.filteredRecipesByTags.push(recipe)
+        this.filteredRecipesByTags = [...new Set(this.filteredRecipesByTags)]
+    }
+
+
     /* TEMPLATES */
     templateItemList(arr, list) {
         arr.forEach((i) => {
@@ -195,13 +199,28 @@ class HomePage {
                     this.tagsUstensile.push(e.target.textContent)
                     this.templatebtnFilterTag(e.target.textContent, e.path[3].classList[1])
                 }
-                if(this.filteredRecipes.length >= 1){
-                    console.log('filtered recipes oui');
-                    this.filterByTags(this.tagsIngredient, this.tagsAppliance, this.tagsUstensile, this.filteredRecipes)
-                }else{
-                /*     this.filterByTags(this.tagsIngredient, this.tagsAppliance, this.tagsUstensile, this.recipes) */
-                }
+                if (this.filteredRecipes.length >= 1) {
+                    if (this.filteredRecipesByTags.length >= 1) {
+                        console.log('recette filtrée par l input et par un tag !');
+                   /*      
+                        this.filterByTags(this.tagsIngredient, this.tagsAppliance, this.tagsUstensile, this.filteredRecipesByTags)
+                          this.filteredRecipesByTags = [] */
+                    } else {
+                        console.log('recette filtrée par l input');
+                        this.filterByTags(this.tagsIngredient, this.tagsAppliance, this.tagsUstensile, this.filteredRecipes)
+                    }
+                } else {
+                    if(this.filteredRecipesByTags.length >= 1) {
+                        console.log('pas de recette filtrée par l input MAIS par TAG OUI');      
+                        this.filterByTags(this.tagsIngredient, this.tagsAppliance, this.tagsUstensile, this.filteredRecipesByTags)
+                    }else {
+                        console.log('pas de recette filtrée par l input');
+                        this.filterByTags(this.tagsIngredient, this.tagsAppliance, this.tagsUstensile, this.recipes)
+                        console.log(this.filteredRecipesByTags);
+                    }
                 
+                }
+
             })
             list.append(li)
         })
@@ -216,12 +235,11 @@ class HomePage {
         iconDelete.classList.add("far", "fa-times-circle")
         iconDelete.addEventListener('click', (e) => {
             this.removeBtnTag(tagBtn, e)
-            if(this.filteredRecipes.length >= 1){
+            if (this.filteredRecipes.length >= 1) {
                 this.displayManagement(this.filteredRecipes)
-               /*  this.filterByTags(this.tagsIngredient, this.tagsAppliance, this.tagsUstensile, this.filteredRecipes) */
-            }else{
-                /* this.displayManagement(this.recipes) */
-                /* this.filterByTags(this.tagsIngredient, this.tagsAppliance, this.tagsUstensile, this.recipes) */
+            }
+            else {
+                this.displayManagement(this.recipes)
             }
         })
         tagBtn.append(value, iconDelete)
@@ -248,9 +266,6 @@ class HomePage {
         })
     }
 }
-const homePage = new HomePage(new Service())
-homePage.init()
 
-
-/* Hello, je suis actuellement sur le P7 et je bloque sur le système de tags, j'arrive a filtrer les recettes avec un tag mais quand il y en a deux j'ai mon tableau avec les recettes comprenant chacun un tag. Je voudrais faire comme les règles indiquées, si il y a les tags coco et chocolat, je dois normalement récupérer les recettes qui ont à la fois de la coco et du chocolat. Je bloque totalement, si une personne a fait récemment ou non le P7 pour pouvoir m'aiguiller ca serait cool ! 
-Merci d'avance !  */
+/* const homePage = new HomePage(new Service())
+homePage.init() */
