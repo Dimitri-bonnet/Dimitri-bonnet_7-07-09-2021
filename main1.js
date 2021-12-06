@@ -185,50 +185,43 @@ class HomePagee {
     /* FILTER  */
     filterRecipes(recipes) {
         if (this.mainInputSearch.value.length >= 3) {
-            console.log('valeur >3 dans linput');
+            /*      console.log('valeur >3 dans linput'); */
             const filtered = this.filteredByMainInput(this.recipes, this.mainInputSearch.value)
             this.displayManagement(filtered)
             if (this.appareilTags.length || this.ustensilTags.length || this.ingredientTags.length) {
-                console.log('et avec tag');
+                /*       console.log('et avec tag'); */
                 const filtered2 = this.filteredByTags2(filtered)
                 this.displayManagement(filtered2)
             } else {
-                console.log('sans tag');
+                /*     console.log('sans tag'); */
             }
         } else {
-            console.log('valeur de linput inferieur a 3');
+            /*    console.log('valeur de linput inferieur a 3'); */
             const u = this.filteredByTags2(this.recipes)
             this.displayManagement(u)
             /*  console.log(u); */
             if (this.appareilTags.length || this.ustensilTags.length || this.ingredientTags.length) {
-                console.log('et avec tag');
+                /*        console.log('et avec tag'); */
             } else {
                 this.displayManagement(this.recipes)
             }
         }
     }
     filteredByMainInput(arr, value) {
-      /*   const resultat = arr.filter(el => el.name.toLowerCase().includes(value.toLowerCase()) || el.description.toLowerCase().includes(value.toLowerCase()))
-            console.log(resultat);
-            return resultat */
+        const perfNow = performance.now()
+        const resultat = arr.filter(el => el.name.toLowerCase().includes(value.toLowerCase()) || el.description.toLowerCase().includes(value.toLowerCase()))
         for (var i = 0; i < arr.length; i++) {
-            
-            console.log(arr[i]);
-
-        
+            for (var u = 0; u < arr[i].ingredients.length; u++) {
+                if (arr[i].ingredients[u].ingredient.toLowerCase().includes(value.toLowerCase())) {
+                    resultat.push(arr[i])
+                }
+            }
         }
+        const uniqueResultat = [...new Set(resultat)]
+        const perfDuration = performance.now() - perfNow
+        console.log(perfDuration);
+        return uniqueResultat
 
-        /* const resultat =  */
-        /*     const resultat = arr.filter(el => el.name.toLowerCase().includes(value.toLowerCase()) || el.description.toLowerCase().includes(value.toLowerCase()))
-            arr.forEach((r) => {
-                r.ingredients.forEach((i) => {
-                    if (i.ingredient.toLowerCase().includes(value.toLowerCase())) {
-                        resultat.push(r)
-                    }
-                })
-            })
-            const uniqueResultat = [...new Set(resultat)]
-            return uniqueResultat */
     }
     filteredBySecondaryInputs(arr, value) {
         return arr.filter(el => el.toLowerCase().includes(value.toLowerCase()))
@@ -260,9 +253,9 @@ class HomePagee {
                 })
             })
         })
-        console.log(resultat);
+        /*      console.log(resultat); */
         const u = this.dublicate(resultat)
-        console.log(u);
+        /*     console.log(u); */
         if (u.length) {
             return u
         } else {
