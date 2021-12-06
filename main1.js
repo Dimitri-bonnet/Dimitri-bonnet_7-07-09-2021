@@ -127,7 +127,6 @@ class HomePagee {
     /* EVENT LISTENER */
     eventMainInput() {
         this.mainInputSearch.addEventListener("input", (e) => {
-            this.mainInputValue = this.mainInputSearch.value
             this.filterRecipes(this.recipes)
         })
     }
@@ -185,19 +184,26 @@ class HomePagee {
     }
     /* FILTER  */
     filterRecipes(recipes) {
-        if (this.mainInputValue == undefined || this.mainInputValue.length < 3) {
+        if (this.mainInputSearch.value.length >= 3) {
+            console.log('valeur >3 dans linput');
+            const filtered = this.filteredByMainInput(this.recipes, this.mainInputSearch.value)
+            this.displayManagement(filtered)
             if (this.appareilTags.length || this.ustensilTags.length || this.ingredientTags.length) {
-                const u = this.filteredByTags2(this.recipes)
-                this.displayManagement(u)
+                console.log('et avec tag');
+                const filtered2 = this.filteredByTags2(filtered)
+                this.displayManagement(filtered2)
             } else {
-                this.displayManagement(recipes)
+                console.log('sans tag');
             }
         } else {
-            const i = this.filteredByMainInput(this.recipes, this.mainInputValue)
-            this.displayManagement(i)
+            console.log('valeur de linput inferieur a 3');
+            const u = this.filteredByTags2(this.recipes)
+            this.displayManagement(u)
+            /*  console.log(u); */
             if (this.appareilTags.length || this.ustensilTags.length || this.ingredientTags.length) {
-                const u = this.filteredByTags2(i)
-                this.displayManagement(u)
+                console.log('et avec tag');
+            } else {
+                this.displayManagement(this.recipes)
             }
         }
     }
@@ -244,7 +250,18 @@ class HomePagee {
             })
         })
         console.log(resultat);
-        return [...new Set(resultat)]
+        const u = this.dublicate(resultat)
+        console.log(u);
+        if (u.length) {
+            return u
+        } else {
+            const uniqueResultat = [...new Set(resultat)]
+            return uniqueResultat
+        }
+
+    }
+    dublicate(arr) {
+        return arr.filter((a, i, aa) => aa.indexOf(a) === i && aa.lastIndexOf(a) !== i);
     }
     /* TEMPLATE */
     templateElList(value) {
