@@ -208,16 +208,27 @@ class HomePagee {
         }
     }
     filteredByMainInput(arr, value) {
-    /*     const resultat = arr.filter(el => el.name.toLowerCase().includes(value.toLowerCase()) || el.description.toLowerCase().includes(value.toLowerCase()))
-        arr.forEach((r) => {
-            r.ingredients.forEach((i) => {
-                if (i.ingredient.toLowerCase().includes(value.toLowerCase())) {
-                    resultat.push(r)
-                }
+      /*   const resultat = arr.filter(el => el.name.toLowerCase().includes(value.toLowerCase()) || el.description.toLowerCase().includes(value.toLowerCase()))
+            console.log(resultat);
+            return resultat */
+        for (var i = 0; i < arr.length; i++) {
+            
+            console.log(arr[i]);
+
+        
+        }
+
+        /* const resultat =  */
+        /*     const resultat = arr.filter(el => el.name.toLowerCase().includes(value.toLowerCase()) || el.description.toLowerCase().includes(value.toLowerCase()))
+            arr.forEach((r) => {
+                r.ingredients.forEach((i) => {
+                    if (i.ingredient.toLowerCase().includes(value.toLowerCase())) {
+                        resultat.push(r)
+                    }
+                })
             })
-        })
-        const uniqueResultat = [...new Set(resultat)]
-        return uniqueResultat */
+            const uniqueResultat = [...new Set(resultat)]
+            return uniqueResultat */
     }
     filteredBySecondaryInputs(arr, value) {
         return arr.filter(el => el.toLowerCase().includes(value.toLowerCase()))
