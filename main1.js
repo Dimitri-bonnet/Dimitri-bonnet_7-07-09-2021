@@ -208,7 +208,7 @@ class HomePagee {
         }
     }
     filteredByMainInput(arr, value) {
-        const resultat = arr.filter(el => el.name.toLowerCase().includes(value.toLowerCase()) || el.description.toLowerCase().includes(value.toLowerCase()))
+    /*     const resultat = arr.filter(el => el.name.toLowerCase().includes(value.toLowerCase()) || el.description.toLowerCase().includes(value.toLowerCase()))
         arr.forEach((r) => {
             r.ingredients.forEach((i) => {
                 if (i.ingredient.toLowerCase().includes(value.toLowerCase())) {
@@ -217,7 +217,7 @@ class HomePagee {
             })
         })
         const uniqueResultat = [...new Set(resultat)]
-        return uniqueResultat
+        return uniqueResultat */
     }
     filteredBySecondaryInputs(arr, value) {
         return arr.filter(el => el.toLowerCase().includes(value.toLowerCase()))
