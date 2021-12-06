@@ -216,6 +216,7 @@ class HomePagee {
                 }
             })
         })
+
         const uniqueResultat = [...new Set(resultat)]
         return uniqueResultat
     }
