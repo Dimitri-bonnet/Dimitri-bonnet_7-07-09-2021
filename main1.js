@@ -190,14 +190,14 @@ class HomePagee {
             this.displayManagement(filtered)
             if (this.appareilTags.length || this.ustensilTags.length || this.ingredientTags.length) {
                 /*       console.log('et avec tag'); */
-                const filtered2 = this.filteredByTags2(filtered)
+                const filtered2 = this.filteredByTags(filtered)
                 this.displayManagement(filtered2)
             } else {
                 /*     console.log('sans tag'); */
             }
         } else {
             /*    console.log('valeur de linput inferieur a 3'); */
-            const u = this.filteredByTags2(this.recipes)
+            const u = this.filteredByTags(this.recipes)
             this.displayManagement(u)
             /*  console.log(u); */
             if (this.appareilTags.length || this.ustensilTags.length || this.ingredientTags.length) {
@@ -226,7 +226,7 @@ class HomePagee {
     filteredBySecondaryInputs(arr, value) {
         return arr.filter(el => el.toLowerCase().includes(value.toLowerCase()))
     }
-    filteredByTags2(recipes) {
+    filteredByTags(recipes) {
         const resultat = []
         this.ingredientTags.forEach((tag) => {
             recipes.forEach((r) => {
@@ -253,10 +253,13 @@ class HomePagee {
                 })
             })
         })
-        /*      console.log(resultat); */
+        console.log(resultat);
         const u = this.dublicate(resultat)
-        /*     console.log(u); */
         if (u.length) {
+            if(u.length > 1){
+                console.log(u);
+                console.log('plus de 2 resultat');
+            }
             return u
         } else {
             const uniqueResultat = [...new Set(resultat)]
