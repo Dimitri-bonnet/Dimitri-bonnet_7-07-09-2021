@@ -1,271 +1,279 @@
-class HomePage {
+class HomePagee {
     constructor(service) {
-        this.service = service;
-        this.recipes = [];
-        this.filteredRecipes = [];
-        this.filteredRecipesByTags = []
+        this.service = service
+        this.recipes = []
+        this.saveInitialRecipes = []
+        this.filteredRecipes = []
         this.ingredientsRecipes = []
-        this.applianceRecipes = []
-        this.ustensilesRecipes = []
-        this.tagsIngredient = []
-        this.tagsAppliance = []
-        this.tagsUstensile = []
-        this.containerRecipes = document.querySelector('.recipes');
-        this.listIngredientsRecipe = document.querySelector('.listIngredients ul')
-        this.listAppareilRecipe = document.querySelector('.listAppareils ul')
-        this.listUstensilesRecipe = document.querySelector(".listUstensiles ul")
+        this.appareilsRecipes = []
+        this.ustensilsRecipes = []
+        this.ingredientTags = []
+        this.appareilTags = []
+        this.ustensilTags = []
+        this.mainInputValue
+        /* HTML ELS */
+        this.containerDisplayRecipes = document.querySelector('.recipes');
+        /* INPUT */
         this.mainInputSearch = document.querySelector('#search');
-        this.secondaryInputs = document.querySelectorAll(".inputItem input");
+        this.inputLstIngredientsRecipes = document.querySelector(".input .inputIngredients")
+        this.inputLstAppareilsRecipes = document.querySelector(".input .inputAppareil")
+        this.inputLstUstensilesRecipes = document.querySelector(".input .inputUstensiles")
+        /* LIST  */
+        this.listIngredientsRecipes = document.querySelector('.listIngredients ul')
+        this.listAppareilsRecipes = document.querySelector(".listAppareils ul")
+        this.listUstensilsRecipes = document.querySelector(".listUstensiles ul")
     }
+    /* INIT */
     init() {
         this.getRecipes()
+        this.saveInitialRecipes = this.recipes
         this.displayManagement(this.recipes)
         this.eventMainInput()
-        this.eventSecondaryInput()
+        this.eventIngredientInput()
+        this.eventAppareilInput()
+        this.eventUstensilsInput()
     }
+    /* GET ELS */
     getRecipes() {
         this.recipes = this.service.getRecipes()
     }
-    getIngredients(arr) {
-        arr.forEach((i) => {
+    getIngredients(recipes) {
+        recipes.forEach((i) => {
             i.ingredients.forEach((i) => {
                 this.ingredientsRecipes.push(i.ingredient)
             })
         })
         this.ingredientsRecipes = [...new Set(this.ingredientsRecipes)]
-        this.templateItemList(this.ingredientsRecipes, this.listIngredientsRecipe)
     }
-    getAppareils(arr) {
-        arr.forEach((a) => {
-            this.applianceRecipes.push(a.appliance)
+    getAppareils(recipes) {
+        recipes.forEach((a) => {
+            this.appareilsRecipes.push(a.appliance)
         })
-        this.applianceRecipes = [...new Set(this.applianceRecipes)]
-        this.templateItemList(this.applianceRecipes, this.listAppareilRecipe)
+        this.appareilsRecipes = [...new Set(this.appareilsRecipes)]
     }
-    getUstensils(arr) {
-        arr.forEach((u) => {
+    getUstensils(recipes) {
+        recipes.forEach((u) => {
             u.ustensils.forEach((u) => {
-                this.ustensilesRecipes.push(u)
+                this.ustensilsRecipes.push(u)
             })
         })
-        this.ustensilesRecipes = [...new Set(this.ustensilesRecipes)]
-        this.templateItemList(this.ustensilesRecipes, this.listUstensilesRecipe)
+        this.ustensilsRecipes = [...new Set(this.ustensilsRecipes)]
+    }
+    /* DISPLAY */
+    displayManagement(arr) {
+        const recipesItem = document.querySelectorAll(".recipe")
+        const listsItem = document.querySelectorAll(".list ul li")
+        this.removeElements(recipesItem)
+        this.removeElements(listsItem)
+        this.ingredientsRecipes = []
+        this.getIngredients(arr)
+        this.appareilsRecipes = []
+        this.getAppareils(arr)
+        this.ustensilsRecipes = []
+        this.getUstensils(arr)
+        this.displayRecipes(arr)
+        this.displayIngredientsRecipes()
+        this.displayAppareilsRecipes()
+        this.displayUstensilsRecipes()
+
     }
     displayRecipes(recipes) {
         const noRecipes = document.querySelector('.noRecipes')
         if (recipes.length) {
             noRecipes.style.display = "none"
             recipes.forEach((recipe) => {
-                this.containerRecipes.append(recipe.templateRecipe())
+                this.containerDisplayRecipes.append(recipe.templateRecipe())
             })
         } else {
             noRecipes.style.display = "block"
         }
-    }
-    displayManagement(recipes) {
-        const recipesItem = document.querySelectorAll(".recipe")
-        const listsItem = document.querySelectorAll(".list ul li")
-        this.removeItems(listsItem)
-        this.removeItems(recipesItem)
-        /*  */
-        this.displayRecipes(recipes)
-        this.ingredientsRecipes = []
-        this.getIngredients(recipes)
-        this.applianceRecipes = []
-        this.getAppareils(recipes)
-        this.ustensilesRecipes = []
-        this.getUstensils(recipes)
 
     }
-    /* MAIN INPUT  */
-    eventMainInput() {
-        this.mainInputSearch.addEventListener("input", (e) => {
-            if (this.mainInputSearch.value.length < 3) {
-                this.filteredRecipes = []
-                this.displayManagement(this.recipes)
-            } else {
-                this.filteredRecipes = this.filterByMainInput(this.recipes, this.mainInputSearch.value)
-                this.displayManagement(this.filteredRecipes)
-                console.log(this.filteredRecipes);
-            }
+    displayIngredientsRecipes() {
+        this.ingredientsRecipes.forEach((i) => {
+            this.listIngredientsRecipes.append(this.templateElList(i))
         })
     }
-    filterByMainInput(arr, value) {
-        const filtered = arr.filter(el => el.name.toLowerCase().includes(value.toLowerCase()) || el.description.toLowerCase().includes(value.toLowerCase()))
-        arr.forEach((r) => {
-            r.ingredients.forEach((i) => {
-                if (i.ingredient.toLowerCase().includes(value.toLowerCase())) {
-                    filtered.push(r)
-                }
-            })
+    displayAppareilsRecipes() {
+        this.appareilsRecipes.forEach((i) => {
+            this.listAppareilsRecipes.append(this.templateElList(i))
         })
-        const uniqueFiltered = [...new Set(filtered)]
-        return uniqueFiltered
     }
-    /* SECONDARY INPUT */
-    eventSecondaryInput() {
-        this.secondaryInputs.forEach((input) => {
-            input.addEventListener("input", (e) => {
-                if (e.target.classList.contains("inputIngredients")) {
-                    const listIngredient = document.querySelector(".listIngredients ul")
-                    const itemsListIngredient = document.querySelectorAll(".listIngredients ul li")
-                    this.removeItems(itemsListIngredient)
-                    const r = this.filterBySecondaryInput(this.ingredientsRecipes, input.value)
-                    this.templateItemList(r, listIngredient)
-                } else if (e.target.classList.contains("inputAppareil")) {
-                    const listAppareil = document.querySelector(".listAppareils ul")
-                    const itemsListAppareil = document.querySelectorAll(".listAppareils ul li");
-                    this.removeItems(itemsListAppareil)
-                    const r = this.filterBySecondaryInput(this.applianceRecipes, input.value)
-                    this.templateItemList(r, listAppareil)
-                } else if (e.target.classList.contains("inputUstensiles")) {
-                    const listUstensiles = document.querySelector(".listUstensiles ul")
-                    const itemsListUstensiles = document.querySelectorAll(".listUstensiles ul li ")
-                    this.removeItems(itemsListUstensiles)
-                    const r = this.filterBySecondaryInput(this.ustensilesRecipes, input.value)
-                    this.templateItemList(r, listUstensiles)
-                }
-            })
+    displayUstensilsRecipes() {
+        this.ustensilsRecipes.forEach((i) => {
+            this.listUstensilsRecipes.append(this.templateElList(i))
+        })
+    }
+    displayList(arr, list, e) {
+        if (e.path[0].classList[0] === "inputIngredients") {
+            const itemsListIngredient = document.querySelectorAll(".listIngredients ul li")
+            this.removeElements(itemsListIngredient)
+        } else if (e.path[0].classList[0] === "inputAppareil") {
+            console.log('appareil');
+            const itemsListAppareil = document.querySelectorAll(".listAppareils ul li")
+            this.removeElements(itemsListAppareil)
+        } else if (e.path[0].classList[0] === "inputUstensiles") {
+            const itemsListUstensiles = document.querySelectorAll(".listUstensiles ul li")
+            this.removeElements(itemsListUstensiles)
         }
-        )
-    }
-    filterBySecondaryInput(arr, value) {
-        const filtered = arr.filter(el => el.toLowerCase().includes(value.toLowerCase()))
-        return filtered
-    }
-    filterByTags(tagsIngredient, tagsAppliance, tagsUstensile, arrRecipes) {
-        console.log('filter by tags');
-        console.log(tagsIngredient);
-        console.log(arrRecipes);
-        if (this.tagsIngredient.length >= 1 || this.tagsAppliance.length >= 1 || this.tagsUstensile.length >= 1) {
-            if (this.tagsIngredient.length >= 1) {
-                tagsIngredient.forEach((tag) => {
-                    arrRecipes.forEach((recipe) => {
-                        recipe.ingredients.forEach((i) => {
-                            if (i.ingredient.toLowerCase() === tag.toLowerCase()) {
-                                this.pushUniqueFilteredRecipesByTags(recipe)
-                                this.displayManagement(this.filteredRecipesByTags)
-                            }
-                        })
-                    })
-                })
-            }
-          /*   if (this.tagsAppliance.length >= 1) {
-                tagsAppliance.forEach((tag) => {
-                    arrRecipes.forEach((recipe) => {
-                        if (recipe.appliance.toLowerCase().includes(tag.toLowerCase())) {
-                            this.pushUniqueFilteredRecipesByTags(recipe)
-                            this.displayManagement(this.filteredRecipesByTags)
-                        }
-                    })
-                })
-            }
-            if (this.tagsUstensile.length >= 1) {
-                tagsUstensile.forEach((tag) => {
-                    arrRecipes.forEach((recipe) => {
-                        recipe.ustensils.forEach((u) => {
-                            if (u.toLowerCase().includes(tag.toLowerCase())) {
-                                this.pushUniqueFilteredRecipesByTags(recipe)
-                                this.displayManagement(this.filteredRecipesByTags)
-                            }
-                        })
-                    })
-                })
-            } */
-        } else {
-            this.displayManagement(this.recipes)
-        }
-/*         this.filteredRecipesByTags = [] */
-    }
-    pushUniqueFilteredRecipesByTags(recipe) {
-        this.filteredRecipesByTags.push(recipe)
-        this.filteredRecipesByTags = [...new Set(this.filteredRecipesByTags)]
-    }
-
-
-    /* TEMPLATES */
-    templateItemList(arr, list) {
-        arr.forEach((i) => {
-            const li = document.createElement('li')
-            li.textContent = i
-            li.addEventListener("click", (e) => {
-                if (e.path[3].classList[1] === "inputIngredients" && !this.tagsIngredient.includes(e.target.textContent)) {
-                    this.tagsIngredient.push(e.target.textContent)
-                    this.templatebtnFilterTag(e.target.textContent, e.path[3].classList[1])
-                } else if (e.path[3].classList[1] === "inputAppareil" && !this.tagsAppliance.includes(e.target.textContent)) {
-                    this.tagsAppliance.push(e.target.textContent)
-                    this.templatebtnFilterTag(e.target.textContent, e.path[3].classList[1])
-                } else if (e.path[3].classList[1] === "inputUstensiles" && !this.tagsUstensile.includes(e.target.textContent)) {
-                    this.tagsUstensile.push(e.target.textContent)
-                    this.templatebtnFilterTag(e.target.textContent, e.path[3].classList[1])
-                }
-                if (this.filteredRecipes.length >= 1) {
-                    if (this.filteredRecipesByTags.length >= 1) {
-                        console.log('recette filtrée par l input et par un tag !');
-                   /*      
-                        this.filterByTags(this.tagsIngredient, this.tagsAppliance, this.tagsUstensile, this.filteredRecipesByTags)
-                          this.filteredRecipesByTags = [] */
-                    } else {
-                        console.log('recette filtrée par l input');
-                        this.filterByTags(this.tagsIngredient, this.tagsAppliance, this.tagsUstensile, this.filteredRecipes)
-                    }
-                } else {
-                    if(this.filteredRecipesByTags.length >= 1) {
-                        console.log('pas de recette filtrée par l input MAIS par TAG OUI');      
-                        this.filterByTags(this.tagsIngredient, this.tagsAppliance, this.tagsUstensile, this.filteredRecipesByTags)
-                    }else {
-                        console.log('pas de recette filtrée par l input');
-                        this.filterByTags(this.tagsIngredient, this.tagsAppliance, this.tagsUstensile, this.recipes)
-                        console.log(this.filteredRecipesByTags);
-                    }
-                
-                }
-
-            })
-            list.append(li)
+        arr.forEach((el) => {
+            list.append(this.templateElList(el))
         })
     }
-    templatebtnFilterTag(value, classColor) {
-        const tagsIngredient = document.querySelector(".tagsIngredient")
-        const tagBtn = document.createElement('button')
-        tagBtn.classList.add("tagBtn")
-        tagBtn.classList.add(classColor)
-        tagBtn.setAttribute("value", value)
-        const iconDelete = document.createElement('i')
-        iconDelete.classList.add("far", "fa-times-circle")
-        iconDelete.addEventListener('click', (e) => {
-            this.removeBtnTag(tagBtn, e)
-            if (this.filteredRecipes.length >= 1) {
-                this.displayManagement(this.filteredRecipes)
-            }
-            else {
-                this.displayManagement(this.recipes)
-            }
-        })
-        tagBtn.append(value, iconDelete)
-        tagsIngredient.append(tagBtn);
-        return tagsIngredient
-    }
-    removeBtnTag(btn, e) {
-        btn.remove()
-        const matchValue = (element) => element === btn.value
-        if (e.path[1].classList[1] === "inputIngredients") {
-            const index = this.tagsIngredient.findIndex(matchValue)
-            this.tagsIngredient.splice(index, 1)
-        } else if (e.path[1].classList[1] === "inputAppareil") {
-            const index = this.tagsAppliance.findIndex(matchValue)
-            this.tagsAppliance.splice(index, 1)
-        } else if (e.path[1].classList[1] === "inputUstensiles") {
-            const index = this.tagsUstensile.findIndex(matchValue)
-            this.tagsUstensile.splice(index, 1)
-        }
-    }
-    removeItems(arr) {
+    removeElements(arr) {
         arr.forEach((i) => {
             i.remove()
         })
     }
-}
+    /* EVENT LISTENER */
+    eventMainInput() {
+        this.mainInputSearch.addEventListener("input", (e) => {
+            this.filterRecipes(this.recipes)
+        })
+    }
+    eventIngredientInput() {
+        this.inputLstIngredientsRecipes.addEventListener('input', (e) => {
+            const resultat = this.filteredBySecondaryInputs(this.ingredientsRecipes, this.inputLstIngredientsRecipes.value)
+            this.displayList(resultat, this.listIngredientsRecipes, e)
+        })
+    }
+    eventAppareilInput() {
+        this.inputLstAppareilsRecipes.addEventListener('input', (e) => {
+            const resultat = this.filteredBySecondaryInputs(this.appareilsRecipes, this.inputLstAppareilsRecipes.value)
+            this.displayList(resultat, this.listAppareilsRecipes, e)
+        })
+    }
+    eventUstensilsInput() {
+        this.inputLstUstensilesRecipes.addEventListener('input', (e) => {
+            const resultat = this.filteredBySecondaryInputs(this.ustensilsRecipes, this.inputLstUstensilesRecipes.value)
+            this.displayList(resultat, this.listUstensilsRecipes, e)
+        })
+    }
+    eventAddTag(e, value) {
+        if (e.path[3].classList[1] === "inputIngredients") {
+            if (!this.ingredientTags.includes(value)) {
+                this.ingredientTags.push(value)
+                this.templateBtnTag(value, e.path[3].classList[1])
+            }
+        } else if (e.path[3].classList[1] === "inputAppareil") {
+            if (!this.appareilTags.includes(value)) {
+                this.appareilTags.push(value)
+                this.templateBtnTag(value, e.path[3].classList[1])
+            }
+        } else if (e.path[3].classList[1] === "inputUstensiles") {
+            if (!this.ustensilTags.includes(value)) {
+                this.ustensilTags.push(value)
+                this.templateBtnTag(value, e.path[3].classList[1])
+            }
+        }
+        this.filterRecipes(this.recipes)
+    }
+    eventDeleteTag(btn, e) {
+        btn.remove()
+        const matchValue = (element) => element === btn.value
+        if (e.path[1].classList[1] === "inputIngredients") {
+            const index = this.ingredientTags.findIndex(matchValue)
+            this.ingredientTags.splice(index, 1)
+        } else if (e.path[1].classList[1] === "inputAppareil") {
+            const index = this.appareilTags.findIndex(matchValue)
+            this.appareilTags.splice(index, 1)
+        } else if (e.path[1].classList[1] === "inputUstensiles") {
+            const index = this.ustensilTags.findIndex(matchValue)
+            this.ustensilTags.splice(index, 1)
+        }
+        this.filterRecipes(this.recipes)
+    }
+    /* FILTER  */
+    filterRecipes(recipes) {
+        if (this.mainInputSearch.value.length >= 3) {
+            console.log('valeur >3 dans linput');
+            this.filteredRecipes = this.filteredByMainInput(this.recipes, this.mainInputSearch.value)
+            this.displayManagement(this.filteredRecipes)
+            if (this.appareilTags.length || this.ustensilTags.length || this.ingredientTags.length) {
+                console.log('et avec tag');
+                this.filteredRecipes = this.filteredByTags(this.filteredRecipes)
+                this.displayManagement(this.filteredRecipes)
+            } else {
+                console.log('sans tag');
+            }
+        } else {
+            console.log('valeur de linput inferieur a 3');
+            /*  console.log(u); */
+            if (this.appareilTags.length || this.ustensilTags.length || this.ingredientTags.length) {
+                this.filteredRecipes = this.filteredByTags(this.recipes)
+                this.displayManagement(this.filteredRecipes)
+                console.log('et avec tag');
+            } else {
+                this.displayManagement(this.recipes)
+            }
+        }
+    }
+    filteredByMainInput(arr, value) {
+        const resultat = arr.filter(el => el.name.toLowerCase().includes(value.toLowerCase()) || el.description.toLowerCase().includes(value.toLowerCase()))
+        arr.forEach((r) => {
+            r.ingredients.forEach((i) => {
+                if (i.ingredient.toLowerCase().includes(value.toLowerCase())) {
+                    resultat.push(r)
+                }
+            })
+        })
 
-/* const homePage = new HomePage(new Service())
-homePage.init() */
+        const uniqueResultat = [...new Set(resultat)]
+        return uniqueResultat
+    }
+    filteredBySecondaryInputs(arr, value) {
+        return arr.filter(el => el.toLowerCase().includes(value.toLowerCase()))
+    }
+    filterByTagsIngredient(recipes) {
+        const resultat = []
+        this.ingredientTags.forEach((tag) => {
+            recipes.forEach((r) => {
+                r.ingredients.forEach((i) => {
+                    if (i.ingredient.toLowerCase() === tag.toLowerCase()) {
+                        resultat.push(r)
+                    }
+                })
+            })
+        })
+        return resultat
+          
+    }
+    filterByTagsAppareil(recipes) {
+        return recipes.filter(recipe => this.appareilTags.every(tag => recipe.appliance.includes(tag)))
+    }
+
+    filterByTagsUstensil(recipes) {
+        return recipes.filter(recipe => this.ustensilTags.every(tag => recipe.ustensils.includes(tag)))
+    }
+    filteredByTags(recipes) {
+      /*   recipes = this.filterByTagsIngredient(recipes) */
+        recipes = this.filterByTagsUstensil(recipes)
+        recipes = this.filterByTagsAppareil(recipes)
+        console.log(recipes);
+        return recipes
+    }
+    /* TEMPLATE */
+    templateElList(value) {
+        const li = document.createElement('li');
+        li.textContent = value
+        li.addEventListener("click", (e) => {
+            this.eventAddTag(e, value)
+        })
+        return li
+    }
+    templateBtnTag(value, color) {
+        const tagsRecipes = document.querySelector(".tagsRecipes")
+        const tagBtn = document.createElement('button')
+        tagBtn.classList.add("tagBtn", color)
+        tagBtn.setAttribute("value", value)
+        const iconDelete = document.createElement('i')
+        iconDelete.classList.add("far", "fa-times-circle")
+        iconDelete.addEventListener('click', (e) => {
+            this.eventDeleteTag(tagBtn, e)
+        })
+        tagBtn.append(value, iconDelete)
+        tagsRecipes.append(tagBtn);
+    }
+}
+const homePagee = new HomePagee(new Service())
+homePagee.init()
