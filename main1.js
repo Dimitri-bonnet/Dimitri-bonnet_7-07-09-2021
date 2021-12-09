@@ -246,8 +246,8 @@ class HomePagee {
     }
     filteredByTags(recipes) {
         recipes = this.filterByTagsIngredient(recipes)
-    /*     recipes = this.filterByTagsUstensil(recipes)
-        recipes = this.filterByTagsAppareil(recipes) */
+        recipes = this.filterByTagsUstensil(recipes)
+        recipes = this.filterByTagsAppareil(recipes)
         console.log(recipes);
         return recipes
     }
