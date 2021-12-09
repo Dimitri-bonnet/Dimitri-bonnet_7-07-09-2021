@@ -1,7 +1,8 @@
 class HomePagee {
     constructor(service) {
         this.service = service
-        this.recipes
+        this.recipes = []
+        this.filteredRecipes = []
         this.saveInitialRecipes
         this.ingredientsRecipes = []
         this.appareilsRecipes = []
@@ -186,29 +187,27 @@ class HomePagee {
     filterRecipes(recipes) {
         if (this.mainInputSearch.value.length >= 3) {
             /*      console.log('valeur >3 dans linput'); */
-            const filtered = this.filteredByMainInput(this.recipes, this.mainInputSearch.value)
-            this.displayManagement(filtered)
+            this.filteredRecipes = this.filteredByMainInput(this.recipes, this.mainInputSearch.value)
+            this.displayManagement(this.filteredRecipes)
             if (this.appareilTags.length || this.ustensilTags.length || this.ingredientTags.length) {
                 /*       console.log('et avec tag'); */
-                const filtered2 = this.filteredByTags(filtered)
-                this.displayManagement(filtered2)
+                this.filteredRecipes = this.filteredByTags(this.filteredRecipes)
+                this.displayManagement(this.filteredRecipes)
             } else {
                 /*     console.log('sans tag'); */
             }
         } else {
-            /*    console.log('valeur de linput inferieur a 3'); */
-            const u = this.filteredByTags(this.recipes)
-            this.displayManagement(u)
-            /*  console.log(u); */
+            console.log('valeur de linput inferieur a 3');
             if (this.appareilTags.length || this.ustensilTags.length || this.ingredientTags.length) {
-                /*        console.log('et avec tag'); */
+                this.filteredRecipes = this.filteredByTags(this.recipes)
+                this.displayManagement(this.filteredRecipes)
+                console.log('et avec tag');
             } else {
                 this.displayManagement(this.recipes)
             }
         }
     }
     filteredByMainInput(arr, value) {
-        const perfNow = performance.now()
         const resultat = arr.filter(el => el.name.toLowerCase().includes(value.toLowerCase()) || el.description.toLowerCase().includes(value.toLowerCase()))
         for (var i = 0; i < arr.length; i++) {
             for (var u = 0; u < arr[i].ingredients.length; u++) {
@@ -218,15 +217,13 @@ class HomePagee {
             }
         }
         const uniqueResultat = [...new Set(resultat)]
-        const perfDuration = performance.now() - perfNow
-        console.log(perfDuration);
         return uniqueResultat
 
     }
     filteredBySecondaryInputs(arr, value) {
         return arr.filter(el => el.toLowerCase().includes(value.toLowerCase()))
     }
-    filteredByTags(recipes) {
+    filterByTagsIngredient(recipes) {
         const resultat = []
         this.ingredientTags.forEach((tag) => {
             recipes.forEach((r) => {
@@ -237,38 +234,22 @@ class HomePagee {
                 })
             })
         })
-        this.appareilTags.forEach((tag) => {
-            recipes.forEach((r) => {
-                if (r.appliance.toLowerCase() === tag.toLowerCase()) {
-                    resultat.push(r)
-                }
-            })
-        })
-        this.ustensilTags.forEach((tag) => {
-            recipes.forEach((r) => {
-                r.ustensils.forEach((u) => {
-                    if (u.toLowerCase() === tag.toLowerCase()) {
-                        resultat.push(r)
-                    }
-                })
-            })
-        })
-        console.log(resultat);
-        const u = this.dublicate(resultat)
-        if (u.length) {
-            if(u.length > 1){
-                console.log(u);
-                console.log('plus de 2 resultat');
-            }
-            return u
-        } else {
-            const uniqueResultat = [...new Set(resultat)]
-            return uniqueResultat
-        }
-
+        return resultat
+          
     }
-    dublicate(arr) {
-        return arr.filter((a, i, aa) => aa.indexOf(a) === i && aa.lastIndexOf(a) !== i);
+    filterByTagsAppareil(recipes) {
+        return recipes.filter(recipe => this.appareilTags.every(tag => recipe.appliance.includes(tag)))
+    }
+
+    filterByTagsUstensil(recipes) {
+        return recipes.filter(recipe => this.ustensilTags.every(tag => recipe.ustensils.includes(tag)))
+    }
+    filteredByTags(recipes) {
+        recipes = this.filterByTagsIngredient(recipes)
+    /*     recipes = this.filterByTagsUstensil(recipes)
+        recipes = this.filterByTagsAppareil(recipes) */
+        console.log(recipes);
+        return recipes
     }
     /* TEMPLATE */
     templateElList(value) {
@@ -295,3 +276,4 @@ class HomePagee {
 }
 const homePagee = new HomePagee(new Service())
 homePagee.init()
+
