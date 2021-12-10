@@ -217,7 +217,6 @@ class HomePagee {
                 }
             })
         })
-
         const uniqueResultat = [...new Set(resultat)]
         return uniqueResultat
     }
@@ -225,31 +224,32 @@ class HomePagee {
         return arr.filter(el => el.toLowerCase().includes(value.toLowerCase()))
     }
     filterByTagsIngredient(recipes) {
-        const resultat = []
         this.ingredientTags.forEach((tag) => {
-            recipes.forEach((r) => {
-                r.ingredients.forEach((i) => {
-                    if (i.ingredient.toLowerCase() === tag.toLowerCase()) {
-                        resultat.push(r)
-                    }
+            recipes = recipes.filter(recipe => {
+                console.log(recipe.ingredients);
+                return recipe.ingredients.find(ingredient => {
+                    console.log("ingredient", ingredient.ingredient, 'tag', tag, ingredient.ingredient === tag);
+                    return ingredient.ingredient === tag
                 })
             })
         })
-        return resultat
-          
+        return recipes
     }
+
+
     filterByTagsAppareil(recipes) {
         return recipes.filter(recipe => this.appareilTags.every(tag => recipe.appliance.includes(tag)))
     }
 
     filterByTagsUstensil(recipes) {
         return recipes.filter(recipe => this.ustensilTags.every(tag => recipe.ustensils.includes(tag)))
+
     }
     filteredByTags(recipes) {
-      /*   recipes = this.filterByTagsIngredient(recipes) */
+        recipes = this.filterByTagsIngredient(recipes)
         recipes = this.filterByTagsUstensil(recipes)
         recipes = this.filterByTagsAppareil(recipes)
-        console.log(recipes);
+
         return recipes
     }
     /* TEMPLATE */

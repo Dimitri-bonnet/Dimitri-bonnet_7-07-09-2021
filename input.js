@@ -18,6 +18,7 @@ inputsItem.forEach((input) => {
             if (!input.children[1].classList.contains("listIsActive")) {
                 input.style.borderRadius = "4px"
                 input.style.width = "20vw"
+                input.children[0].children[0].value = ""
                 input.children[0].children[1].classList.replace("fa-chevron-up", "fa-chevron-down");
                 
             } else {
